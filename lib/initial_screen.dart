@@ -1,61 +1,44 @@
 import 'package:flutter_ui_chat/src/common_url_services.dart';
 
-class InitialScreen extends StatelessWidget {
+class InitialScreen extends StatefulWidget {
   const InitialScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.menu,
-            size: 30,
-            color: Colors.white,
+  State<InitialScreen> createState() => _InitialScreenState();
+}
+
+class _InitialScreenState extends State<InitialScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((duration) {
+      Future.delayed(duration, () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Home(),
           ),
-        ),
-        title: const Text(
-          "Chats",
-          style: TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.search,
-              size: 30,
-              color: Colors.white,
-            ),
-          ),
-        ],
-        elevation: 0.0,
-      ),
-      body: Column(
-        children: [
-          const CategorySelector(),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).splashColor,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(30.0),
-                  topRight: Radius.circular(30.0),
+        );
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) => Material(
+        child: Center(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Loading...',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              child: const Column(
-                children: [
-                  FavoriteContacts(),
-                  RecentChats(),
-                ],
-              ),
-            ),
+            ],
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      );
 }
