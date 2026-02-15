@@ -1,5 +1,3 @@
-import 'package:flutter_ui_chat/src/common_url_services.dart';
-
 class Task {
   final int? id;
   final String title;
