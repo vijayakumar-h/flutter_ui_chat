@@ -1,16 +1,16 @@
 import 'package:flutter_ui_chat/src/common_url_services.dart';
 
 class Task {
-  final int id;
+  final int? id;
   final String title;
   final String description;
   final bool isCompleted;
 
   Task({
-    required this.id,
+    this.id,
     required this.title,
     required this.description,
-    required this.isCompleted,
+    this.isCompleted = false,
   });
 
   factory Task.formJson(Map<String, dynamic> json) {
@@ -18,7 +18,7 @@ class Task {
       id: json['id'],
       title: json['title'],
       description: json['description'],
-      isCompleted: json['isCompleted'],
+      isCompleted: json['isCompleted'] ?? false,
     );
   }
 
