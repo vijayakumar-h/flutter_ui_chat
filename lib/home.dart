@@ -23,20 +23,21 @@ class _HomeState extends State<Home> {
           }
           if (state is TaskLoaded) {
             return ListView.builder(
-                itemCount: state.task.length,
-                itemBuilder: (context, index) {
-                  final task = state.task[index];
-                  return ListTile(
-                    title: Text(task.title),
-                    subtitle: Text(task.description),
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete),
-                      onPressed: () => context.read<TaskBloc>().add(
-                            RemoveTask(taskId: task.id!),
-                          ),
-                    ),
-                  );
-                });
+              itemCount: state.task.length,
+              itemBuilder: (context, index) {
+                final task = state.task[index];
+                return ListTile(
+                  title: Text(task.title),
+                  subtitle: Text(task.description),
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () => context.read<TaskBloc>().add(
+                          RemoveTask(taskId: task.id!),
+                        ),
+                  ),
+                );
+              },
+            );
           }
           return SizedBox.shrink();
         }),
