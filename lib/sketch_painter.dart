@@ -1,26 +1,26 @@
 import 'common_exports.dart';
 
 class SketchPainter extends CustomPainter {
-  final List<Offset?> points;
+  final List<Stroke> strokes;
 
-  SketchPainter(this.points);
+  SketchPainter(this.strokes);
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.blueAccent
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = 4.0;
+    for (var stroke in strokes) {
+      final paint = Paint()
+        ..color = stroke.color
+        ..strokeCap = StrokeCap.round
+        ..strokeWidth = 4.0;
 
-    for (int i = 0; i < points.length - 1; i++) {
-      if (points[i] != null && points[i + 1] != null) {
-        canvas.drawLine(points[i]!, points[i + 1]!, paint);
+      for (int i = 0; i < stroke.points.length - 1; i++) {
+        if (stroke.points[i] != null && stroke.points[i + 1] != null) {
+          canvas.drawLine(stroke.points[i]!, stroke.points[i + 1]!, paint);
+        }
       }
     }
   }
 
   @override
-  bool shouldRepaint(covariant SketchPainter oldDelegate) {
-    return oldDelegate.points.length != points.length;
-  }
+  bool shouldRepaint(covariant SketchPainter oldDelegate) => true;
 }
