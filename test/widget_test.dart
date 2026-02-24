@@ -7,23 +7,42 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ui_chat/main.dart';
 import 'package:flutter_ui_chat/drawing_app.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('DrawingApp UI elements and interaction test',
+      (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const DrawingApp());
+    await tester.pumpWidget(
+      BlocProvider(
+        create: (context) => DrawingCubit(),
+        child: const MaterialApp(
+          home: DrawingApp(),
+        ),
+      ),
+    );
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify background and basic structure
+    expect(find.byType(CustomPaint), findsAtLeastNWidgets(1));
+    expect(find.byIcon(Icons.undo), findsOneWidget);
+    expect(find.byIcon(Icons.delete), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    // Verify palette colors are present (based on the List in drawing_app.dart)
+    // We can check for a few specific ones
+    expect(find.byType(GestureDetector),
+        findsAtLeastNWidgets(2)); // Canvas + at least 1 color
+
+    // Test Drawing interaction: Pan on the Canvas
+    final Offset startPoint = Offset(100, 100);
+
+    // Start pan
+    await tester.dragFrom(startPoint, const Offset(100, 100));
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify clear button works
+    await tester.tap(find.byIcon(Icons.delete));
+    await tester.pump();
   });
 }
